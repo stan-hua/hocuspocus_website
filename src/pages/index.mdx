@@ -152,7 +152,7 @@ print(dataset[0])
 ## Key Findings
 
 ### OOD Detection Can Identify Model Failure under Semantic and Covariate Shift
-<Figure caption="\textbf{OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.} The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=\texttt{K-JoCo}, B1=\texttt{MF-Spain}, B2=\texttt{MF-Africa}, B3=\texttt{MF-3}, C1=\texttt{PR-1}, and C2=\texttt{PR-2}."
+<Figure caption="**OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.** The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=`K-JoCo`, B1=`MF-Spain`, B2=`MF-Africa`, B3=`MF-3`, C1=`PR-1`, and C2=`PR-2`."
   >
   <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
 </Figure>
@@ -160,10 +160,10 @@ print(dataset[0])
 ### Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
 MF-3 fetal images are captured in the 1st trimester, compared to the others which are captured in the 2nd/3rd trimester. Due to drastic changes between 1st and 2nd/3rd trimester images, the shift in age is more akin to a semantic shift, and thus should not be evaluated by model performance. As it stands, differentiating between the two will require manual labor in practice.
 
-# TODO: Show difference in image between 1st and 2nd/3rd trimester images
+### TODO: Show difference in image between 1st and 2nd/3rd trimester images
 
 ### Caveat 2. Detection Can Amplify Model Biases
-<Figure caption="\textbf{OOD Detection Amplifies Biases.} \textbf{(a)} More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. \textbf{(b)} OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. \textbf{(c)} OOD can marginally worsen label balance in the balanced setting.>
+<Figure caption="**OOD Detection Amplifies Biases.** **(a)** More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. **(b)** OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. **(c)** OOD can marginally worsen label balance in the balanced setting.>
   <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
 </Figure>
 
@@ -171,13 +171,13 @@ MF-3 fetal images are captured in the 1st trimester, compared to the others whic
 ### Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
 <TwoColumns>
   <div>
-    <Figure caption="">
-      <Image source={fig3} altText="" />
+    <Figure caption="[FILL HERE]">
+      <Image source={fig3} altText="[FILL HERE]" />
     </Figure>
   </div>
   <div>
-    <Figure caption="">
-      <Image source={fig3} altText="" />
+    <Figure caption="[FILL HERE]">
+      <Image source={fig3} altText="[FILL HERE]" />
     </Figure>
   </div>
 </TwoColumns>
