@@ -151,10 +151,10 @@ print(dataset[0])
 
 ## Key Findings
 
-### OOD Detection Can Identify Model Failure under Semantic & Covariate Shift
+### OOD Detection Can Identify Model Failure under Semantic \& Covariate Shift
 <Figure caption="\textbf{OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.} The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=\texttt{K-JoCo}, B1=\texttt{MF-Spain}, B2=\texttt{MF-Africa}, B3=\texttt{MF-3}, C1=\texttt{PR-1}, and C2=\texttt{PR-2}."
   >
-  <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic & Covariate Shift" />
+  <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic \& Covariate Shift" />
 </Figure>
 
 ### Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
@@ -164,7 +164,7 @@ MF-3 fetal images are captured in the 1st trimester, compared to the others whic
 
 ### Caveat 2. Detection Can Amplify Model Biases
 <Figure caption="\textbf{OOD Detection Amplifies Biases.} \textbf{(a)} More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. \textbf{(b)} OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. \textbf{(c)} OOD can marginally worsen label balance in the balanced setting.>
-  <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic & Covariate Shift" />
+  <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic \& Covariate Shift" />
 </Figure>
 
 
