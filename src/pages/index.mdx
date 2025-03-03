@@ -20,7 +20,8 @@ import LaTeX from "../components/LaTeX.astro";
 
 import hocuspocus from "../assets/hocuspocus.svg";
 import applications from "../assets/applications.svg";
-import fig2 from "../assets/fig2.svg";
+import fig2 from "../assets/fig2_website.svg";
+import cov_to_semantic_shift from "../assets/cov_to_semantic_shift.svg";
 import fig3 from "../assets/fig3.svg";
 import supplemental_video from "../assets/supplemental_video.gif";
 import Splat from "../components/Splat.tsx"
@@ -166,19 +167,21 @@ print(dataset[0])
 
 ### 💡OOD Detection Can Identify Model Failure under Semantic and Covariate Shif
 <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
-**OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.**
 
-The x-axis plots negative MLS (higher = more OOD) with quartiles marked.
-Vertical line display set OOD decision thresholds.
-For seen views, green region = identified inliers (In) and red region = identified outliers (Out).
-Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD.
-In parenthesis is the dataset used; A1=`K-JoCo`, B1=`MF-Spain`, B2=`MF-Africa`, B3=`MF-3`, C1=`PR-1`, and C2=`PR-2`.
+Majority of unseen views (among held-out datasets and HocusPOCUS) are identified as (semantically) OOD.
+Among covariate-shifted data `MF-Spain` to `MF-Africa` and `PR-1` to `PR-2`, detection identifies correctly-predicted examples.
+
+**NOTE**: Threshold is determined by validation data in source domain and HocusPOCUS datasets.
 
 
 ### ⚠️ Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
-MF-3 fetal images are captured in the 1st trimester, compared to the others which are captured in the 2nd/3rd trimester. Due to drastic changes between 1st and 2nd/3rd trimester images, the shift in age is more akin to a semantic shift, and thus should not be evaluated by model performance. As it stands, differentiating between the two will require manual labor in practice.
 
-### TODO: Show difference in image between 1st and 2nd/3rd trimester images
+<Image source={cov_to_semantic_shift} altText="MF-3 images are more semantically shifted than only covariately shifted." />
+Unlike `MF-Spain`/`MF-Africa`, `MF-3` images are captured in the 1st trimester much earlier (first trimester) and are very different both in appearance and common pathologies observed.
+OOD detection seemingly fails to identify correctly-predicted samples (77\%) accuracy.
+However, with clinician collaborators, we identify that the shift from 2nd/3rd trimester versus 1st trimester more closely matches a semantic shift, and thus should be identified as semantically OOD.
+
+
 
 ### ⚠️ Caveat 2. Detection Can Amplify Model Biases
 <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
