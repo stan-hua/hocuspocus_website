@@ -18,7 +18,11 @@ import TwoColumns from "../components/TwoColumns.astro";
 import YouTubeVideo from "../components/YouTubeVideo.astro";
 import LaTeX from "../components/LaTeX.astro";
 
-import fig1 from "../assets/fig1.svg";
+import hocuspocus from "../assets/hocuspocus.svg";
+import applications from "../assets/applications.svg";
+import fig2 from "../assets/fig2.svg";
+import fig3 from "../assets/fig3.svg";
+import supplemental_video from "../assets/supplemental_video.gif";
 import Splat from "../components/Splat.tsx"
 
 import CodeBlock from "../components/CodeBlock.astro";
@@ -58,53 +62,146 @@ export const components = {pre: CodeBlock, table: Table}
   ]}
   />
 
+## The HocusPOCUS Benchmark
+1. **HP-A (Atlas)**: 854 crowd-sourced POCUS videos of 11 distinct POCUS use-cases
+2. **HP-Q (Quality)**: Paired low/high-quality images across 5 anatomies  
+3. **HP-N (Noise)**: Synthetic ultrasound images with controlled noise/shapes  
+
+<Figure caption="**HocusPOCUS Datasets**">
+    <Image source={applications} altText="HocusPOCUS Datasets" />
+</Figure>
 
 <HighlightedSection>
 
-## Abstract
+## TLDR;
 
-Deploying deep learning (DL) models for point-of-care ul-
-trasound (POCUS) requires real-time identification of out-of-distribution
-(OOD) images to enable safe and confident prediction vs. deferral to clin-
-icians where distribution shifts are large. However, the lack of standard-
-ized benchmarks has hindered the evaluation of OOD detection meth-
-ods in POCUS. To address this, we introduce HocusPOCUS, a bench-
-mark comprising real and simulated data capturing realistic POCUS
-shifts: unseen anatomical views, scanner-specific artifacts, image quality
-variations, and speckle noise. We demonstrate the utility of this bench-
-mark using a post-hoc OOD detection method, Maximum Logit Score
-(MLS), with the HocusPOCUS dataset. To do this, we train view clas-
-sifiers for the adult knee, maternal-fetal, and pediatric renal ultrasound
-and use MLS to jointly detect unseen anatomical views (semantic shift)
-and model failure under covariate shift on HocusPOCUS datasets and
-held-out datasets. Our experiments reveal critical limitations in MLS
-for POCUS. 1. Bias Amplification: MLS disproportionately flags un-
-derrepresented classes and severe disease cases as OOD, perpetuating
-existing model biases. 2. Artifact Sensitivity: Scanner-specific back-
-grounds and foreground shape can artificially inflate OOD scores, leading
-to spurious detections. 3. Shift Ambiguity: Failed OOD detection is
-not easily distinguishable between unseen anatomical views (semantic
-shifts) or severe covariate shifts, complicating failure diagnosis in prac-
-tice. 4. Temporal Instability: High variability in frame-level OOD
-scores undermines reliability in real-time video applications. These find-
-ings highlight the need for domain-specific OOD detection frameworks
-that mitigate covariate shift sensitivity, improve semantic shift detection,
-and integrate temporal context. By addressing these challenges, OOD de-
-tection can enhance the reliability of POCUS DL systems in dynamic,
-real-world settings.
-
+Real-time machine learning for point-of-care ultrasound requires knowing *when a model doesn't know*.
+We introduce HocusPOCUS, a benchmark for detecting data shifts in realistic deployment scenarios.
+Experiments on three clinical applications highlight the promise and existing limitations of using maximum logit score, baseline post-hoc method, to identify model failure under both semantic and covariate shift.
+By addressing these challenges, OOD detection can enhance the reliability and trustworthiness of machine learning systems in dynamic real-world POCUS settings.
 </HighlightedSection>
 
-## The HocusPOCUS Benchmark
-<Figure
-    caption="Data Overview."
+
+## Quickstart
+
+**Load HocusPOCUS Datasets:**
+```python
+from hocuspocus_ood import HocusPocusDataset, load_hocuspocus_metadata
+
+# Parameters
+dataset_name = "atlas"          # or "quality" or "noise"
+
+# Optional parameters
+hparams = {
+    "transform": ...                # Torchvision transforms
+    "load_image_func": ...,         # Custom calling function to load image given image path
+    "load_image_kwargs": ...,       # Keyword arguments for custom image loading function
+    "img_mode": 3,                  # 3 = RGB, 1 = Grayscale
+    "img_size": (224, 224),         # Image size to resize to
+    "scale": True,                  # If True, perform min-max normalization
+}
+
+# 1. HP-Atlas dataset               # NOTE: Both the extracted foreground and background are loaded
+dataset = HocusPocusDataset("atlas", **hparams)
+# 1.1. HP-Atlas dataset with background details kept
+# dataset = HocusPocusDataset("atlas", separate_background=False, **hparams)
+print(dataset[0])
+# {
+#   'id': 'pocus_atlas-renal-3-1',
+#   'video_id': 'pocus_atlas-renal-3',
+#   'img': tensor([[[0.0000, 0.0000, 0.0000,  ..., 0.0000, 0.0157, 0.1569]]]),
+#   'background_img': tensor([[[0.0118, 0.0118, 0.0118,  ..., 0.0118, 0.0078, 0.0000]]]),
+#   'label': 'renal',
+# }
+
+# 2. HP-Quality dataset
+dataset = HocusPocusDataset("quality", **hparams)
+print(dataset[0])
+# {
+#   'id': '0001-0',
+#   'img': tensor([[[0.4235, 0.4510, 0.5020,  ..., 0.4627, 0.4471, 0.4549]]]),
+#   'label': 'thyroid',
+#   'quality': 'low_quality',
+# }
+
+# 3. HP-Noise dataset
+dataset = HocusPocusDataset("noise", **hparams)
+print(dataset[0])
+# {
+#   'id': 'hp_noise-1',
+#   'img': tensor([[[0., 0., 0.,  ..., 0., 0., 0.]]]),
+#   'label': 'noise-solid',
+# }
+```
+
+---
+
+
+## Clinical Applications
+**2D Ultrasound View Classification***:
+- Adult Knee ([K-JoCo](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/SKP9IB))
+- Maternal-Fetal ([MF-Spain](https://zenodo.org/records/3904280), [MF-Africa](https://zenodo.org/records/7540448), MF-3 (Private))
+- Pediatric Renal (PR-1 (Private), PR-2 (Private))
+
+<Figure caption="Clinical Applications">
+    <Image source={applications} altText="Clinical Applications" />
+</Figure>
+
+---
+
+## Key Findings
+
+### OOD Detection Can Identify Model Failure under Semantic & Covariate Shift
+<Figure caption="\textbf{OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.} The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=\texttt{K-JoCo}, B1=\texttt{MF-Spain}, B2=\texttt{MF-Africa}, B3=\texttt{MF-3}, C1=\texttt{PR-1}, and C2=\texttt{PR-2}."
   >
-    <Image source={fig1} altText="**Data Overview.** **(Top)** Examples of covariate shift (C), semantic shift (S) and both (C+S). **(Middle)** The HocusPOCUS Collection. **(Bottom)** Datasets for View Classification." />
+  <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic & Covariate Shift" />
+</Figure>
+
+### Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
+MF-3 fetal images are captured in the 1st trimester, compared to the others which are captured in the 2nd/3rd trimester. Due to drastic changes between 1st and 2nd/3rd trimester images, the shift in age is more akin to a semantic shift, and thus should not be evaluated by model performance. As it stands, differentiating between the two will require manual labor in practice.
+
+# TODO: Show difference in image between 1st and 2nd/3rd trimester images
+
+### Caveat 2. Detection Can Amplify Model Biases
+<Figure caption="\textbf{OOD Detection Amplifies Biases.} \textbf{(a)} More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. \textbf{(b)} OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. \textbf{(c)} OOD can marginally worsen label balance in the balanced setting.>
+  <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic & Covariate Shift" />
 </Figure>
 
 
-### Python Usage
+### Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
+<TwoColumns>
+  <div>
+    <Figure caption="">
+      <Image source={fig3} altText="" />
+    </Figure>
+  </div>
+  <div>
+    <Figure caption="">
+      <Image source={fig3} altText="" />
+    </Figure>
+  </div>
+</TwoColumns>
 
+
+### 🚩 Limitations of MLS for POCUS OOD
+- **Artifact Sensitivity**: Scanner backgrounds affect scores (+3.2% AUROC inflation)
+<TwoColumns>
+  <div>
+  ### OOD Performance Varies Greatly in Cine Clips
+  <Table>
+    | Metric       | Adult Knee | Maternal-Fetal | Pediatric Renal |
+    |--------------|------------|----------------|-----------------|
+    | AUROC (Max Intra-Video Score)    | 99%       | 75.8%          | 66.6%           |
+    | AUROC (Min Intra-Video Score)    | 89.6%      | 48.7%          | 37.4%           |
+  </Table>
+  </div>
+  <div>
+  ### Example (Lung) POCUS Video
+      <Image source={supplemental_video} altText="Example of Unstable OOD Detection in Videos" />
+  </div>
+</TwoColumns>
+
+---
 
 ## BibTeX citation
 
@@ -112,7 +209,7 @@ real-world settings.
 @misc{...,
   author = "{Stanley Bryan Zamora Hua, ..., Lauren Erdman}",
   title = "HocusPOCUS: A OOD benchmark for point-of-care ultrasound",
-  year = "2024",
+  year = "2025",
   howpublished = "\url{...}",
 }
 ```
