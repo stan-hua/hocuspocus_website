@@ -63,19 +63,22 @@ export const components = {pre: CodeBlock, table: Table}
   />
 
 ## The HocusPOCUS Benchmark
-1. **HP-A (Atlas)**: 854 crowd-sourced POCUS videos of 11 distinct POCUS use-cases
-2. **HP-Q (Quality)**: Paired low/high-quality images across 5 anatomies  
-3. **HP-N (Noise)**: Synthetic ultrasound images with controlled noise/shapes  
 
-<Figure caption="**HocusPOCUS Datasets**">
-    <Image source={applications} altText="HocusPOCUS Datasets" />
+|                                         | **Description**                                        | **Train/Val/Test**  |
+|-----------------------------------------|--------------------------------------------------------|---------------------|
+| **HP-Atlas** (854 videos; 48.7K images) | Crowd-sourced POCUS videos from 11 different use-cases | 176/217/461 videos  |
+| **HP-Quality** (1050 image pairs)       | Pairs of POCUS vs. non-POCUS images                    | 426/520/1154 images |
+| **HP-Noise** (1920 images)              | Generated images with different foreground shapes      | 480/480/960 images  |
+
+<Figure caption="HocusPOCUS Datasets">
+    <Image source={hocuspocus} altText="HocusPOCUS Datasets" />
 </Figure>
 
 <HighlightedSection>
 
 ## TLDR;
 
-Real-time machine learning for point-of-care ultrasound requires knowing *when a model doesn't know*.
+Real-time machine learning for point-of-care ultrasound requires knowing ***when a model doesn't know*.
 We introduce HocusPOCUS, a benchmark for detecting data shifts in realistic deployment scenarios.
 Experiments on three clinical applications highlight the promise and existing limitations of using maximum logit score, baseline post-hoc method, to identify model failure under both semantic and covariate shift.
 By addressing these challenges, OOD detection can enhance the reliability and trustworthiness of machine learning systems in dynamic real-world POCUS settings.
@@ -138,12 +141,12 @@ print(dataset[0])
 
 
 ## Clinical Applications
-**2D Ultrasound View Classification***:
-- Adult Knee ([K-JoCo](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/SKP9IB))
-- Maternal-Fetal ([MF-Spain](https://zenodo.org/records/3904280), [MF-Africa](https://zenodo.org/records/7540448), MF-3 (Private))
-- Pediatric Renal (PR-1 (Private), PR-2 (Private))
+**2D Ultrasound View Classification**:
+- **Adult Knee** ([K-JoCo](https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/SKP9IB))
+- **Maternal-Fetal** ([MF-Spain](https://zenodo.org/records/3904280), [MF-Africa](https://zenodo.org/records/7540448), MF-3 (Private))
+- **Pediatric Renal** (PR-1 (Private), PR-2 (Private))
 
-<Figure caption="Clinical Applications">
+<Figure caption="">
     <Image source={applications} altText="Clinical Applications" />
 </Figure>
 
@@ -151,11 +154,10 @@ print(dataset[0])
 
 ## Key Findings
 
-### OOD Detection Can Identify Model Failure under Semantic and Covariate Shift
-<Figure caption="**OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.** The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=`K-JoCo`, B1=`MF-Spain`, B2=`MF-Africa`, B3=`MF-3`, C1=`PR-1`, and C2=`PR-2`."
-  >
-  <Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
-</Figure>
+### OOD Detection Can Identify Model Failure under Semantic and Covariate Shif
+<Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
+**OOD detection can identify correctly predicted examples under covariate shift, but such examples are not easily separable from misidentified unseen views.** The x-axis plots negative MLS (higher = more OOD) with quartiles marked. Vertical line display set OOD decision thresholds. For seen views, green region = identified inliers (In) and red region = identified outliers (Out). Accuracies are provided above each region. For unseen views, green/red regions = correctly/incorrectly identified as semantic ID or OOD. In parenthesis is the dataset used; A1=`K-JoCo`, B1=`MF-Spain`, B2=`MF-Africa`, B3=`MF-3`, C1=`PR-1`, and C2=`PR-2`.
+
 
 ### Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
 MF-3 fetal images are captured in the 1st trimester, compared to the others which are captured in the 2nd/3rd trimester. Due to drastic changes between 1st and 2nd/3rd trimester images, the shift in age is more akin to a semantic shift, and thus should not be evaluated by model performance. As it stands, differentiating between the two will require manual labor in practice.
@@ -163,9 +165,8 @@ MF-3 fetal images are captured in the 1st trimester, compared to the others whic
 ### TODO: Show difference in image between 1st and 2nd/3rd trimester images
 
 ### Caveat 2. Detection Can Amplify Model Biases
-<Figure caption="**OOD Detection Amplifies Biases.** **(a)** More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. **(b)** OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. **(c)** OOD can marginally worsen label balance in the balanced setting.">
-  <Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
-</Figure>
+<Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
+**OOD Detection Amplifies Biases.** **(a)** More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers. **(b)** OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset. **(c)** OOD can marginally worsen label balance in the balanced setting.
 
 
 ### Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
