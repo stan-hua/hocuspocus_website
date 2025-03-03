@@ -58,6 +58,16 @@ export const components = {pre: CodeBlock, table: Table}
       name: "arXiv",
       url: "",
       icon: "academicons:arxiv",
+    },
+    {
+      name: "Zenodo",
+      url: "https://zenodo.org/records/14941380",
+      icon: "ri-database-2-line",
+    },
+    {
+      name: "Kaggle",
+      url: "https://www.kaggle.com/datasets/stanleyhua/hocuspocus-an-ood-benchmark-for-pocus/",
+      icon: "ri-database-2-line",
     }
   ]}
   />
@@ -70,7 +80,7 @@ export const components = {pre: CodeBlock, table: Table}
 | **HP-Quality** (1050 image pairs)       | Pairs of POCUS vs. non-POCUS images                    | 426/520/1154 images |
 | **HP-Noise** (1920 images)              | Generated images with different foreground shapes      | 480/480/960 images  |
 
-<Figure caption="HocusPOCUS Datasets">
+<Figure>
     <Image source={hocuspocus} altText="HocusPOCUS Datasets" />
 </Figure>
 
@@ -184,17 +194,17 @@ MF-3 fetal images are captured in the 1st trimester, compared to the others whic
 ### ⚠️ Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
 <TwoColumns>
   <Figure slot="left" caption="Affected by Background">
-    <Image source={fig3} altText="[FILL HERE]" />
+    <Image source={supplemental_video} altText="[FILL HERE]" />
   </Figure>
   <Figure slot="right" caption="Affected by Foreground Shape">
-    <Image source={fig3} altText="[FILL HERE]" />
+    <Image source={supplemental_video} altText="[FILL HERE]" />
   </Figure>
 </TwoColumns>
 
 
 ### ⚠️ Caveat 4. MLS is not ready for real-time OOD detection
 <Figure caption="Example (Lung) POCUS Video">
-  <Video source={supplemental_video} altText="Example (Lung) POCUS Video" />
+  <Image source={supplemental_video} altText="Example (Lung) POCUS Video" />
 </Figure>
 
 <Table>
