@@ -21,8 +21,10 @@ import LaTeX from "../components/LaTeX.astro";
 import hocuspocus from "../assets/hocuspocus.svg";
 import applications from "../assets/applications.svg";
 import fig2 from "../assets/fig2_website.svg";
-import cov_to_semantic_shift from "../assets/cov_to_semantic_shift.svg";
 import fig3 from "../assets/fig3.svg";
+import cov_to_semantic_shift from "../assets/cov_to_semantic_shift.svg";
+import cov_factors_bg from "../assets/cov_factors-bg.svg";
+import cov_factors_fg_shape from "../assets/cov_factors-fg_shape.svg";
 import supplemental_video from "../assets/supplemental_video.gif";
 import Splat from "../components/Splat.tsx"
 
@@ -82,7 +84,7 @@ export const components = {pre: CodeBlock, table: Table}
 | **HP-Noise** (1920 images)              | Generated images with different foreground shapes      | 480/480/960 images  |
 
 <Figure>
-    <Image source={hocuspocus} altText="HocusPOCUS Datasets" />
+    <Image source={hocuspocus} altText="HocusPOCUS Datasets" style="max-width: 100%; height: auto;" />
 </Figure>
 
 <HighlightedSection>
@@ -158,7 +160,7 @@ print(dataset[0])
 - **Pediatric Renal** (PR-1 (Private), PR-2 (Private))
 
 <Figure caption="">
-    <Image source={applications} altText="Clinical Applications" />
+    <Image source={applications} altText="Clinical Applications" style="max-width: 100%; height: auto;" />
 </Figure>
 
 ---
@@ -166,48 +168,47 @@ print(dataset[0])
 ## 🚨 Key Findings
 
 ### 💡OOD Detection Can Identify Model Failure under Semantic and Covariate Shif
-<Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
+<Image source={fig2} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" style="max-width: 100%; height: auto;" />
 
-Majority of unseen views (among held-out datasets and HocusPOCUS) are identified as (semantically) OOD.
-Among covariate-shifted data `MF-Spain` to `MF-Africa` and `PR-1` to `PR-2`, detection identifies correctly-predicted examples.
+> Majority of unseen views (among held-out datasets and HocusPOCUS) are identified as (semantically) OOD.
+> Among covariate-shifted data `MF-Spain` to `MF-Africa` and `PR-1` to `PR-2`, detection identifies correctly-predicted examples.
 
 **NOTE**: Threshold is determined by validation data in source domain and HocusPOCUS datasets.
 
 
 ### ⚠️ Caveat 1. Disambiguating Failure between Semantic vs. Covariate Shift Detection is Manual and Requires Domain Expertise.
 
-<Image source={cov_to_semantic_shift} altText="MF-3 images are more semantically shifted than only covariately shifted." />
-Unlike `MF-Spain`/`MF-Africa`, `MF-3` images are captured in the 1st trimester much earlier (first trimester) and are very different both in appearance and common pathologies observed.
-OOD detection seemingly fails to identify correctly-predicted samples (77\%) accuracy.
-However, with clinician collaborators, we identify that the shift from 2nd/3rd trimester versus 1st trimester more closely matches a semantic shift, and thus should be identified as semantically OOD.
+<Image source={cov_to_semantic_shift} altText="MF-3 images are more semantically shifted than only covariately shifted." style="max-width: 50%; height: auto;" />
+> Unlike `MF-Spain`/`MF-Africa`, `MF-3` images are captured in the 1st trimester much earlier (first trimester) and are very different both in appearance and common pathologies observed.
+> OOD detection seemingly fails to identify correctly-predicted samples (77\%) accuracy.
+> However, with clinician collaborators, we identify that the shift from 2nd/3rd trimester versus 1st trimester more closely matches a semantic shift, and thus should be identified as semantically OOD.
 
 
 
 ### ⚠️ Caveat 2. Detection Can Amplify Model Biases
-<Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" />
-**OOD Detection Amplifies Biases.**
+<Image source={fig3} altText="OOD Detection Identifies Model Failure under Semantic and Covariate Shift" style="max-width: 100%; height: auto;" />
 
-**(a)** More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers.
+> **(a)** More severe disease manifestations are identified as outliers (K-JoCo: osteoarthritis, PR-1/PR-2: hydronephrosis) despite little effect on model performance. Bars (left-axis) indicate percentage identified as outliers, while points (right-axis) indicate accuracy gap between inliers and outliers.
 
-**(b)** OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset.
+> **(b)** OOD worsens label imbalance among identified inliers, particularly in the imbalanced setting. Smallest/Largest refer to the least/most represented class in each dataset.
 
-**(c)** OOD can marginally worsen label balance in the balanced setting.
+> **(c)** OOD can marginally worsen label balance in the balanced setting.
 
 
 ### ⚠️ Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
 <TwoColumns>
-  <Figure slot="left" caption="Affected by Background">
-    <Image source={supplemental_video} altText="[FILL HERE]" />
+  <Figure slot="left" caption="Background Details">
+    <Image source={cov_factors_bg} altText="OOD Detection is affected by scanner-specific background details" style="max-width: 100%; height: auto;" />
   </Figure>
-  <Figure slot="right" caption="Affected by Foreground Shape">
-    <Image source={supplemental_video} altText="[FILL HERE]" />
+  <Figure slot="right" caption="Foreground Shape">
+    <Image source={cov_factors_fg_shape} altText="OOD Detection is affected by probe-specific foreground shape" style="max-width: 100%; height: auto;" />
   </Figure>
 </TwoColumns>
 
 
 ### ⚠️ Caveat 4. MLS is not ready for real-time OOD detection
 <Figure caption="Example (Lung) POCUS Video">
-  <Image source={supplemental_video} altText="Example (Lung) POCUS Video" />
+  <Image source={supplemental_video} altText="Example (Lung) POCUS Video" style="max-width: 100%; height: auto;" />
 </Figure>
 
 <Table>
