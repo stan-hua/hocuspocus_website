@@ -188,7 +188,7 @@ print(dataset[0])
 
 <Image source={mf_shifts} altText="MF-3 images are more semantically shifted than only covariately shifted." style="max-width: 50% !important; height: auto !important;" />
 > Unlike `MF-Spain`/`MF-Africa`, `MF-3` images are captured in the 1st trimester much earlier and are very different both in appearance and common pathologies observed.
-> OOD detection seemingly fails to identify correctly-predicted samples (77\%) accuracy.
+> OOD detection seemingly fails to identify correctly-predicted samples (77\% accuracy).
 > However, with clinician collaborators, we identify that the shift from 2nd/3rd trimester versus 1st trimester more closely matches a semantic shift, and thus should be identified as semantically OOD.
 
 
@@ -205,10 +205,10 @@ print(dataset[0])
 
 ### ⚠️ Caveat 3. Detection is Affected by Spurious Scanner-Specific Covariates
 <TwoColumns>
-  <Figure slot="left" caption="Background Details">
+  <Figure slot="left">
     <Image source={cov_factors_bg} altText="OOD Detection is affected by scanner-specific background details" style="max-width: 100 !important%; height: auto !important;" />
   </Figure>
-  <Figure slot="right" caption="Foreground Shape">
+  <Figure slot="right">
     <Image source={cov_factors_fg_shape} altText="OOD Detection is affected by probe-specific foreground shape" style="max-width: 100% !important; height: auto !important;" />
   </Figure>
 </TwoColumns>
